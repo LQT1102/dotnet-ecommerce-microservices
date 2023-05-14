@@ -1,6 +1,17 @@
+using Catalog.API.Data;
+using Catalog.API.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Khai báo IDBContext
+builder.Services.AddSingleton<IDBContext, DBContext>();
+
+// Khai báo IProductRepository
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+// Injection
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
