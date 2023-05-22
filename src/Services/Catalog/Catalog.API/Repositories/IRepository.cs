@@ -7,17 +7,13 @@ namespace Catalog.API.Repositories
     {
         Task<IEnumerable<T>> GetManyAsync(FilterDefinition<T>? filterDefinition = null, int? skip = null, int? limit = null, SortDefinition<T>? sortDefinition = null, ProjectionDefinition<T, T>? projectionDefinition = null);
 
-        Task<long> GetCountAsync(FilterDefinition<T> filterDefinition);
+        Task<long> GetCountAsync(FilterDefinition<T>? filterDefinition = null);
 
-        Task<T> GetOneAync();
+        Task<T> GetOneAync(string id);
 
-        Task<IEnumerable<T>> GetByNameAsync(string name);
+        Task<T> Create(T entity);
 
-        Task<IEnumerable<T>> GetByCategoryAsync(string categoryName);
-
-        Task Create(T entity);
-
-        Task<bool> Update(T entity);
+        Task Update(string id, T entity);
 
         Task Delete(string id);
     }

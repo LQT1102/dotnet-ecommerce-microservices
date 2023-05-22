@@ -14,24 +14,16 @@ namespace Catalog.API.Repositories
             _collection = collection;
         }
 
-        public Task Create(T entity)
+        public async Task<T> Create(T entity)
         {
-            throw new NotImplementedException();
+            await _collection.InsertOneAsync(entity);
+            return entity;
         }
 
-        public Task Delete(string id)
+        public async Task Delete(string id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<T>> GetByCategoryAsync(string categoryName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<T>> GetByNameAsync(string name)
-        {
-            throw new NotImplementedException();
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            await _collection.FindOneAndDeleteAsync(filter);   
         }
 
         public async Task<IEnumerable<T>> GetManyAsync(FilterDefinition<T>? filterDefinition = null, int? skip = null, int? limit = null, SortDefinition<T>? sortDefinition = null, ProjectionDefinition<T, T>? projectionDefinition = null)
@@ -66,19 +58,22 @@ namespace Catalog.API.Repositories
             return await operation.ToListAsync();
         }
 
-        public async Task<long> GetCountAsync(FilterDefinition<T> filterDefinition)
+        public async Task<long> GetCountAsync(FilterDefinition<T>? filterDefinition = null)
         {
             return await _collection.CountDocumentsAsync(filterDefinition);
         }
 
-        public Task<T> GetOneAync()
+        public async Task<T> GetOneAync(string id)
         {
-            throw new NotImplementedException();
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            var result = (await _collection.FindAsync(filter)).SingleOrDefault();
+            return result;
         }
 
-        public Task<bool> Update(T entity)
+        public async Task Update(string id, T entity)
         {
-            throw new NotImplementedException();
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            await _collection.FindOneAndReplaceAsync(filter, entity);
         }
     }
 }

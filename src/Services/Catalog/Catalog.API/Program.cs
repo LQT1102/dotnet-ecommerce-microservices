@@ -1,5 +1,6 @@
 using Catalog.API.Data;
 using Catalog.API.Repositories;
+using Catalog.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IDBContext, DBContext>();
 
 // Khai báo IProductRepository
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+
+// Khai báo các service
+builder.Services.AddSingleton<IProductService, ProductService>();
 
 // Injection
 
